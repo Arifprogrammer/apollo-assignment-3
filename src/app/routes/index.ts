@@ -1,13 +1,19 @@
 import { Router } from 'express'
+import { userRouter } from '../modules/user/user.routes'
+import { authRouter } from '../modules/auth/auth.routes'
 
 export const router = Router()
 
-/* const moduleRoutes = [
+const moduleRoutes = [
   {
-    path: '/students',
-    route: studentRoutes,
+    path: '/users',
+    route: userRouter,
+  },
+  {
+    path: '/auth',
+    route: authRouter,
   },
 ]
 
 // biome-ignore lint/complexity/noForEach: <explanation>
-moduleRoutes.forEach(route => router.use(route.path, route.route)) */
+moduleRoutes.forEach(route => router.use(route.path, route.route))

@@ -5,14 +5,15 @@ export function respond(
   input: {
     data?: unknown
     success: boolean
-    code: number
+    statusCode: number
     message?: string
     [key: string]: unknown
   },
 ) {
-  const { data, code, message, success } = input
+  const { data, statusCode, message, success } = input
 
-  return res.status(code).json({
+  return res.status(statusCode).json({
+    statusCode,
     success,
     message,
     data,
