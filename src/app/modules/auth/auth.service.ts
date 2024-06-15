@@ -51,8 +51,8 @@ class Service {
       role: role,
     }
 
-    return jwt.sign(payload, config.JWT_SECRET as string, {
-      expiresIn: '5d',
+    return jwt.sign(payload, config.JWT_SECRET, {
+      expiresIn: config.Access_Token_Expiration,
     })
   }
 }

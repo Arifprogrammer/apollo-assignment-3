@@ -8,7 +8,7 @@ export const authenticateToken = (...roles: string[]): RequestHandler => {
   return (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] as string
 
-    jwt.verify(token, config.JWT_SECRET as string, function (err, decoded) {
+    jwt.verify(token, config.JWT_SECRET, function (err, decoded) {
       if (err) throw new AppError(httpStatus.UNAUTHORIZED, err.message)
       const user = decoded as JwtPayload
       req.user = user

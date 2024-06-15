@@ -6,6 +6,7 @@ export const userCreateValidationSchema = z.object({
       required_error: 'Name is required',
       invalid_type_error: 'Name must be a string',
     })
+    .min(1)
     .trim(),
   email: z
     .string({
@@ -26,14 +27,15 @@ export const userCreateValidationSchema = z.object({
       required_error: 'Phone number is required',
       invalid_type_error: 'Phone number must be a string',
     })
-    .trim(),
+    .trim()
+    .optional(),
   address: z
     .string({
       invalid_type_error: 'Address must be a string',
     })
     .trim()
     .optional(),
-  role: z.enum(['user', 'admin'], { message: 'Role is required' }),
+  role: z.enum(['user', 'admin'], { message: 'Role does not match' }),
 })
 
 export const userLoginValidationSchema = userCreateValidationSchema.pick({
