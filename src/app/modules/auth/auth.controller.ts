@@ -14,3 +14,16 @@ export const createUser = catchAsync(async (req, res) => {
     message: 'User registered successfully',
   })
 })
+
+export const loginUser = catchAsync(async (req, res) => {
+  const credentials = req.body
+  const { userWithOutPass, token } = await AuthService.loginUser(credentials)
+
+  respond(res, {
+    data: userWithOutPass,
+    token,
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User logged in successfully',
+  })
+})

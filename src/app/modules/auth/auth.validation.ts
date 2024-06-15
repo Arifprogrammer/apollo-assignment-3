@@ -35,3 +35,10 @@ export const userCreateValidationSchema = z.object({
     .optional(),
   role: z.enum(['user', 'admin'], { message: 'Role is required' }),
 })
+
+export const userLoginValidationSchema = userCreateValidationSchema.pick({
+  email: true,
+  password: true,
+})
+
+export type TUserCredential = z.infer<typeof userLoginValidationSchema>

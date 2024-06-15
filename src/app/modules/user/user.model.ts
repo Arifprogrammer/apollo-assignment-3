@@ -1,7 +1,9 @@
 import { Schema, model } from 'mongoose'
-import { IUser } from './user.interface'
+import { IUser, UserModel } from './user.interface'
+import bcrypt from 'bcrypt'
+import config from '../../config'
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, UserModel>({
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -38,4 +40,21 @@ const userSchema = new Schema<IUser>({
   },
 })
 
-export const User = model<IUser>('User', userSchema)
+//* static middleware to check user is already exist or not
+userSchema.statics.isUserExist = async email => {
+  return await User.findOne({ email })
+}
+
+userSchema.statics.userWithoutPassword = async id => {
+  return await User.findById({ _id: id }).select('-password -__v')
+}
+
+userSchema.pre('save', async function (next) {
+  const user = this
+
+  //* hashing password and save into DB
+  user.password = await bcrypt.hash(user.password, Number(config.salt_round))
+  next()
+})
+
+export const User = model<IUser, UserModel>('User', userSchema)

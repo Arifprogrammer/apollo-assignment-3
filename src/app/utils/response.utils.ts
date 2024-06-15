@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { shake } from 'radash'
 
 export function respond(
   res: Response,
@@ -10,12 +11,15 @@ export function respond(
     [key: string]: unknown
   },
 ) {
-  const { data, statusCode, message, success } = input
+  const { data, statusCode, message, success, token } = input
 
-  return res.status(statusCode).json({
-    statusCode,
-    success,
-    message,
-    data,
-  })
+  return res.status(statusCode).json(
+    shake({
+      statusCode,
+      success,
+      message,
+      data,
+      token,
+    }),
+  )
 }
