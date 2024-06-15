@@ -1,17 +1,23 @@
 import { RequestHandler } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import config from '../config'
 import AppError from '../errors/AppError'
 import httpStatus from 'http-status'
 
-export const authenticateToken = (...rest: string[]): RequestHandler => {
+export const authenticateToken = (...roles: string[]): RequestHandler => {
   return (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] as string
-    console.log(token)
 
     jwt.verify(token, config.JWT_SECRET as string, function (err, decoded) {
       if (err) throw new AppError(httpStatus.UNAUTHORIZED, err.message)
-      req['email'] = decoded.email
+      const user = decoded as JwtPayload
+      req.user = user
+
+      if (roles.length && !roles.includes(user.role)) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized user.')
+      }
+
+      next()
     })
   }
 }
