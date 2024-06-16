@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const roomValidationSchema = z.object({
+export const roomCreateValidationSchema = z.object({
   name: z
     .string({
       required_error: 'Name is required',
@@ -42,4 +42,6 @@ export const roomValidationSchema = z.object({
     .default(false),
 })
 
-export type TRoom = z.infer<typeof roomValidationSchema>
+export const roomUpdateValidationSchema = roomCreateValidationSchema.partial()
+
+export type TRoom = z.infer<typeof roomCreateValidationSchema>
