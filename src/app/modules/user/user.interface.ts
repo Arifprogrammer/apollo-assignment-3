@@ -1,7 +1,7 @@
-import { Model, Schema } from 'mongoose'
+import { Model, Types } from 'mongoose'
 
 export interface IUser {
-  id?: Schema.Types.ObjectId
+  id?: Types.ObjectId
   name: string
   email: string
   password: string
@@ -12,5 +12,5 @@ export interface IUser {
 
 export interface UserModel extends Model<IUser> {
   isUserExist(email: string): Promise<IUser | null>
-  userWithoutPassword(id: Schema.Types.ObjectId): Promise<IUser | null>
+  userWithoutPassword(id: Types.ObjectId): Promise<IUser | null>
 }

@@ -7,7 +7,7 @@ import { TUserCredential } from './auth.validation'
 import { JwtPayload } from 'jsonwebtoken'
 import jwt from 'jsonwebtoken'
 import config from '../../config'
-import { Schema } from 'mongoose'
+import { Types } from 'mongoose'
 
 class Service {
   async createUser(user: IUser) {
@@ -39,7 +39,7 @@ class Service {
 
     const token = this.createToken(existingUser.email, existingUser.role)
     const userWithOutPass = await User.userWithoutPassword(
-      existingUser.id as Schema.Types.ObjectId,
+      existingUser.id as Types.ObjectId,
     )
 
     return { userWithOutPass, token }

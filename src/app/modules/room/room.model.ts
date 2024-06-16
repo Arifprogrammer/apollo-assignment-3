@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 import { TRoom } from './room.validation'
 import { RoomModel } from './room.interface'
 
@@ -46,7 +46,7 @@ const roomSchema = new Schema<TRoom, RoomModel>(
   { versionKey: false },
 )
 
-roomSchema.statics.isRoomExist = async (id: string) => {
+roomSchema.statics.isRoomExist = async (id: Types.ObjectId | string) => {
   return await Room.findById({ _id: id })
 }
 
