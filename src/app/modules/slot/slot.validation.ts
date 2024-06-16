@@ -9,8 +9,9 @@ export const slotCreateValidationSchema = z
         invalid_type_error: 'The room id must be a string value',
       })
       .trim(),
-    date: z.coerce.date({
+    date: z.string({
       required_error: 'The date of the booking is required',
+      invalid_type_error: 'The date must be a string value',
     }),
     startTime: z
       .string({

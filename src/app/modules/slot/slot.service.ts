@@ -9,8 +9,10 @@ class Service {
     const room = await Room.isRoomExist(slot.room)
     if (!room) throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist')
     const minutesPerHour = 60
-    const startHour = Number(slot.startTime.split(':')[0]) //* extracting hour only "10:00" -> 10
-    const endHour = Number(slot.endTime.split(':')[0]) //* extracting hour only "12:00" -> 12
+    const { startHour, endHour } = this.extractHours(
+      slot.startTime,
+      slot.endTime,
+    )
     const slotsCount =
       (endHour * minutesPerHour - startHour * minutesPerHour) / minutesPerHour //* extracting slots count by minutes 300 / 60 -> 5
 
@@ -28,6 +30,15 @@ class Service {
       })
     }
     return await Slot.create(slots)
+  }
+
+  private extractHours(
+    startTime: string,
+    endTime: string,
+  ): { startHour: number; endHour: number } {
+    const startHour = Number(startTime.split(':')[0]) //* extracting hour only "10:00" -> 10
+    const endHour = Number(endTime.split(':')[0]) //* extracting hour only "12:00" -> 12
+    return { startHour, endHour }
   }
 }
 
