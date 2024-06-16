@@ -6,7 +6,8 @@ export const roomCreateValidationSchema = z.object({
       required_error: 'Name is required',
       invalid_type_error: 'Name must be a string',
     })
-    .min(1),
+    .min(1)
+    .trim(),
   roomNo: z
     .number({
       required_error: 'Room number is required',
