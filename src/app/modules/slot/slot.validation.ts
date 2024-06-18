@@ -65,8 +65,6 @@ export const slotCreateValidationSchema = z
     },
   )
 
-// export const slotUpdateValidationSchema = slotCreateValidationSchema.partial()
-
 export type TSlot = Omit<z.infer<typeof slotCreateValidationSchema>, 'room'> & {
   room: ObjectId
 }
