@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import { catchAsync } from '../../utils/catchAsync.utils'
 import { respond } from '../../utils/response.utils'
 import { RoomService } from './room.service'
+import { ObjectId } from 'mongoose'
 
 export const createRoom = catchAsync(async (req, res) => {
   const room = req.body
@@ -17,7 +18,7 @@ export const createRoom = catchAsync(async (req, res) => {
 
 export const getSingleRoom = catchAsync(async (req, res) => {
   const { id } = req.params
-  const data = await RoomService.getSingleRoom(id)
+  const data = await RoomService.getSingleRoom(id as unknown as ObjectId)
 
   respond(res, {
     data,
@@ -40,7 +41,7 @@ export const getAllRoom = catchAsync(async (req, res) => {
 
 export const updateRoom = catchAsync(async (req, res) => {
   const { id } = req.params
-  const data = await RoomService.updateRoom(id, req.body)
+  const data = await RoomService.updateRoom(id as unknown as ObjectId, req.body)
 
   respond(res, {
     data,
@@ -52,7 +53,7 @@ export const updateRoom = catchAsync(async (req, res) => {
 
 export const deleteRoom = catchAsync(async (req, res) => {
   const { id } = req.params
-  const data = await RoomService.deleteRoom(id)
+  const data = await RoomService.deleteRoom(id as unknown as ObjectId)
 
   respond(res, {
     data,

@@ -3,6 +3,7 @@ import AppError from '../../errors/AppError'
 import { Room } from '../room/room.model'
 import { TSlot } from './slot.validation'
 import { Slot } from './slot.model'
+import { shake } from 'radash'
 
 class Service {
   async createSlot(slot: TSlot) {
@@ -30,6 +31,28 @@ class Service {
       })
     }
     return await Slot.create(slots)
+  }
+
+  async getAllSlots(queryParams: Pick<TSlot, 'date' | 'room'>) {
+    const { date, room } = queryParams
+
+    if (!Object.values(shake(queryParams)).length) {
+      return await Slot.find({ isBooked: false })
+    }
+
+    return await Slot.find({
+      $and: [
+        {
+          date,
+        },
+        {
+          room,
+        },
+        {
+          isBooked: false,
+        },
+      ],
+    })
   }
 
   private extractHours(

@@ -1,6 +1,6 @@
-import { Model, Types } from 'mongoose'
+import { Model, ObjectId } from 'mongoose'
 import { TRoom } from './room.validation'
 
 export interface RoomModel extends Model<TRoom> {
-  isRoomExist(id: Types.ObjectId | string): Promise<TRoom | null>
+  isRoomExist(id: ObjectId): Promise<TRoom | null>
 }

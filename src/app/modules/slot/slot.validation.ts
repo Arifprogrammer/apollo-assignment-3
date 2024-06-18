@@ -1,4 +1,4 @@
-import { Types } from 'mongoose'
+import { ObjectId } from 'mongoose'
 import { z } from 'zod'
 
 export const slotCreateValidationSchema = z
@@ -68,5 +68,5 @@ export const slotCreateValidationSchema = z
 // export const slotUpdateValidationSchema = slotCreateValidationSchema.partial()
 
 export type TSlot = Omit<z.infer<typeof slotCreateValidationSchema>, 'room'> & {
-  room: Types.ObjectId
+  room: ObjectId
 }

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { authenticateToken } from '../../middlewares/authenticateToken.middleware'
 import { validateBody } from '../../middlewares/validate-zod.middleware'
 import { slotCreateValidationSchema } from './slot.validation'
-import { createSlot } from './slot.controller'
+import { createSlot, getAllSlots } from './slot.controller'
 
 const router = Router()
 
@@ -12,5 +12,6 @@ router.post(
   validateBody(slotCreateValidationSchema),
   createSlot,
 )
+router.get('/availability', getAllSlots)
 
 export const slotRouter = router

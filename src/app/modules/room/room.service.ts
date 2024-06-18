@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
 import { Room } from './room.model'
 import { TRoom } from './room.validation'
+import { ObjectId } from 'mongoose'
 
 class Service {
   async createRoom(room: TRoom) {
@@ -11,7 +12,7 @@ class Service {
     return await Room.create(room)
   }
 
-  async getSingleRoom(id: string) {
+  async getSingleRoom(id: ObjectId) {
     const room = await Room.isRoomExist(id)
     if (!room) throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist')
     return room
@@ -21,7 +22,7 @@ class Service {
     return await Room.find()
   }
 
-  async updateRoom(id: string, data: Partial<TRoom>) {
+  async updateRoom(id: ObjectId, data: Partial<TRoom>) {
     if (!(await Room.isRoomExist(id))) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist')
     }
@@ -29,7 +30,7 @@ class Service {
     return await Room.findOneAndUpdate({ _id: id }, data, { new: true })
   }
 
-  async deleteRoom(id: string) {
+  async deleteRoom(id: ObjectId) {
     if (!(await Room.isRoomExist(id))) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist')
     }
