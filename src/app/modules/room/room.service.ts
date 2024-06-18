@@ -14,7 +14,6 @@ class Service {
 
   async getSingleRoom(id: ObjectId) {
     const room = await Room.isRoomExist(id)
-    if (!room) throw new AppError(httpStatus.BAD_REQUEST, 'Room does not exist')
     return room
   }
 

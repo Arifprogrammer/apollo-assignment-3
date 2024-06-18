@@ -27,8 +27,14 @@ export const getAllSlots = catchAsync(async (req, res) => {
     room: ObjectId
   })
 
-  if (!data.length)
-    throw new AppError(httpStatus.NOT_FOUND, 'No slot available at this moment')
+  if (!data.length) {
+    respond(res, {
+      data,
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+    })
+  }
 
   respond(res, {
     data,

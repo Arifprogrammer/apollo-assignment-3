@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { TErrorSources } from '../interface/error'
+import { TErrorMessages } from '../interface/error'
 import config from '../config'
 import { ZodError } from 'zod'
 import handleZodError from '../errors/handleZodError'
@@ -17,7 +17,7 @@ export const globalErrorHandler = (
   //* default values
   let statusCode = 500
   let message = 'Something went wrong!'
-  let errorSources: TErrorSources[] = [
+  let errorMessages: TErrorMessages[] = [
     {
       path: '',
       message: 'Something went wrong',
@@ -28,26 +28,26 @@ export const globalErrorHandler = (
     const simplifiedError = handleZodError(err)
     statusCode = simplifiedError?.statusCode
     message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
+    errorMessages = simplifiedError?.errorMessages
   } else if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err)
     statusCode = simplifiedError?.statusCode
     message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
+    errorMessages = simplifiedError?.errorMessages
   } else if (err?.name === 'CastError') {
     const simplifiedError = handleCastError(err)
     statusCode = simplifiedError?.statusCode
     message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
+    errorMessages = simplifiedError?.errorMessages
   } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err)
     statusCode = simplifiedError?.statusCode
     message = simplifiedError?.message
-    errorSources = simplifiedError?.errorSources
+    errorMessages = simplifiedError?.errorMessages
   } else if (err instanceof AppError) {
     statusCode = err?.statusCode
     message = err.message
-    errorSources = [
+    errorMessages = [
       {
         path: '',
         message: err?.message,
@@ -55,7 +55,7 @@ export const globalErrorHandler = (
     ]
   } else if (err instanceof Error) {
     message = err.message
-    errorSources = [
+    errorMessages = [
       {
         path: '',
         message: err?.message,
@@ -67,7 +67,7 @@ export const globalErrorHandler = (
   return res.status(statusCode).json({
     success: false,
     message,
-    errorSources,
+    errorMessages,
     stack: config.NODE_ENV === 'development' ? err?.stack : null,
   })
 }

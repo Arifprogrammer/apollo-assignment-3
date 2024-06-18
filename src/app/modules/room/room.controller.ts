@@ -20,6 +20,15 @@ export const getSingleRoom = catchAsync(async (req, res) => {
   const { id } = req.params
   const data = await RoomService.getSingleRoom(id as unknown as ObjectId)
 
+  if (!data) {
+    respond(res, {
+      data,
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+    })
+  }
+
   respond(res, {
     data,
     success: true,
@@ -30,6 +39,15 @@ export const getSingleRoom = catchAsync(async (req, res) => {
 
 export const getAllRoom = catchAsync(async (req, res) => {
   const data = await RoomService.getAllRoom()
+
+  if (!data.length) {
+    respond(res, {
+      data,
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+    })
+  }
 
   respond(res, {
     data,
