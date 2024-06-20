@@ -1,44 +1,24 @@
-/* import httpStatus from 'http-status'
+import httpStatus from 'http-status'
 import { catchAsync } from '../../utils/catchAsync.utils'
 import { respond } from '../../utils/response.utils'
-import { RoomService } from './room.service'
 import { ObjectId } from 'mongoose'
+import { BookingService } from './booking.service'
 
-export const createRoom = catchAsync(async (req, res) => {
-  const room = req.body
-  const data = await RoomService.createRoom(room)
-
-  respond(res, {
-    data,
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Room added successfully',
-  })
-})
-
-export const getSingleRoom = catchAsync(async (req, res) => {
-  const { id } = req.params
-  const data = await RoomService.getSingleRoom(id as unknown as ObjectId)
-
-  if (!data) {
-    respond(res, {
-      data,
-      success: false,
-      statusCode: httpStatus.NOT_FOUND,
-      message: 'No Data Found',
-    })
-  }
+export const createBooking = catchAsync(async (req, res) => {
+  const booking = req.body
+  const data = await BookingService.createBooking(booking)
 
   respond(res, {
     data,
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Room retrieved successfully',
+    message: 'Booking created successfully',
   })
 })
 
-export const getAllRoom = catchAsync(async (req, res) => {
-  const data = await RoomService.getAllRoom()
+export const getMyBooking = catchAsync(async (req, res) => {
+  const user = req.user
+  const data = await BookingService.getMyBooking(user.email)
 
   if (!data.length) {
     respond(res, {
@@ -53,31 +33,33 @@ export const getAllRoom = catchAsync(async (req, res) => {
     data,
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Rooms retrieved successfully',
+    message: 'User bookings retrieved successfully',
   })
 })
 
-export const updateRoom = catchAsync(async (req, res) => {
+export const updateBooking = catchAsync(async (req, res) => {
   const { id } = req.params
-  const data = await RoomService.updateRoom(id as unknown as ObjectId, req.body)
+  const data = await BookingService.updateBooking(
+    id as unknown as ObjectId,
+    req.body,
+  )
 
   respond(res, {
     data,
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Room updated successfully',
+    message: 'Booking updated successfully',
   })
 })
 
-export const deleteRoom = catchAsync(async (req, res) => {
+export const deleteBooking = catchAsync(async (req, res) => {
   const { id } = req.params
-  const data = await RoomService.deleteRoom(id as unknown as ObjectId)
+  const data = await BookingService.deleteBooking(id as unknown as ObjectId)
 
   respond(res, {
     data,
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Room deleted successfully',
+    message: 'Booking deleted successfully',
   })
 })
- */

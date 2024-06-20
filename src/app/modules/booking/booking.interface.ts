@@ -1,7 +1,6 @@
-/* import { Model, ObjectId } from 'mongoose'
-import { TRoom } from './room.validation'
+import { Model, ObjectId } from 'mongoose'
+import { TBooking } from './booking.validation'
 
-export interface RoomModel extends Model<TRoom> {
-  isRoomExist(id: ObjectId): Promise<TRoom | null>
+export interface BookingModel extends Model<TBooking> {
+  isBookingExist(id: ObjectId): Promise<TBooking | null>
 }
- */

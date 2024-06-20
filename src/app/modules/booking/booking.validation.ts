@@ -23,10 +23,6 @@ export const bookingCreateValidationSchema = z.object({
       invalid_type_error: 'Booking date must be a string',
     })
     .trim(),
-  totalAmount: z.number({
-    required_error: 'Total amount is required',
-    invalid_type_error: 'Total amount must be a number',
-  }),
   isConfirmed: z
     .enum(['confirmed', 'unconfirmed', 'canceled'], {
       required_error: 'Booking status is required',
@@ -42,7 +38,11 @@ export const bookingCreateValidationSchema = z.object({
     .default(false),
 })
 
+export const bookingUpdateValidationSchema = bookingCreateValidationSchema
+  .pick({ date: true, isConfirmed: true, isDeleted: true })
+  .partial()
+
 export type TBooking = Omit<
   z.infer<typeof bookingCreateValidationSchema>,
   'user' | 'room'
-> & { user: ObjectId; room: ObjectId }
+> & { user: ObjectId; room: ObjectId; totalAmount: number }
