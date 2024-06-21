@@ -9,6 +9,17 @@ import { User } from '../user/user.model'
 
 class Service {
   async createBooking(booking: TBooking) {
+    const availableSlots = await Slot.find({
+      _id: { $in: booking.slots },
+    })
+
+    if (availableSlots.length !== booking.slots.length) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'There is one or multiple slots do not exist',
+      )
+    }
+
     const bookedSlots = await Slot.find({
       _id: { $in: booking.slots },
       isBooked: true,
@@ -85,7 +96,6 @@ class Service {
       const updateSlots = await Slot.updateMany(
         {
           _id: { $in: booking.slots },
-          isBooked: false,
         },
         { isBooked: true },
         {
