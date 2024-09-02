@@ -4,6 +4,7 @@ import {
   createBooking,
   deleteBooking,
   getMyBooking,
+  getAllBooking,
   updateBooking,
 } from './booking.controller'
 import {
@@ -15,19 +16,20 @@ import { authenticateToken } from '../../middlewares/authenticateToken.middlewar
 const router = Router()
 
 router.post(
-  '/bookings',
+  '/',
   authenticateToken(),
   validateBody(bookingCreateValidationSchema),
   createBooking,
 )
 
+router.get('/', authenticateToken('admin'), getAllBooking)
 router.get('/my-bookings', authenticateToken(), getMyBooking)
 router.put(
-  '/bookings/:id',
+  '/:id',
   authenticateToken('admin'),
   validateBody(bookingUpdateValidationSchema),
   updateBooking,
 )
-router.delete('/bookings/:id', authenticateToken('admin'), deleteBooking)
+router.delete('/:id', authenticateToken('admin'), deleteBooking)
 
 export const bookingRouter = router

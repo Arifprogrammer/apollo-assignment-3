@@ -3,7 +3,6 @@ import { catchAsync } from '../../utils/catchAsync.utils'
 import { respond } from '../../utils/response.utils'
 import { SlotService } from './slot.service'
 import { ObjectId } from 'mongoose'
-import AppError from '../../errors/AppError'
 
 export const createSlot = catchAsync(async (req, res) => {
   const slot = req.body
